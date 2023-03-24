@@ -1,0 +1,10 @@
+.vscode
+build
+
+.vs
+out
+
+cmake-build-debug
+cmake-build-release
+
+.fleet

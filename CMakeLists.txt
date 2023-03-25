@@ -5,6 +5,9 @@ set(COLORSELECT_VERSION_MAJOR 1)
 set(COLORSELECT_VERSION_MINOR 0)
 set(COLORSELECT_VERSION_PATCH 1)
 
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -31,21 +34,28 @@ elseif(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-missing-braces") # Wmissing-field-initializers has less false positives
 endif()
 
+find_package(Qt5 COMPONENTS Core Widgets)
+
 add_executable(${PROJECT_NAME} 
     src/main.cpp
-    src/utiltiy/blockgradient.cpp
-    src/utiltiy/color.cpp
-    src/utiltiy/continuouscolorscheme.cpp
-    src/utiltiy/discretecolorscheme.cpp
-    src/utiltiy/lineargradient.cpp
-    src/utiltiy/linearhsvgradient.cpp
-    src/utiltiy/multicolorscheme.cpp
-    src/utiltiy/randomcolorscheme.cpp
-    src/utiltiy/randomgradient.cpp
-    include/utiltiy/color.h
-    include/utiltiy/gradient.h
-    include/utiltiy/scheme.h
+    src/utility/blockgradient.cpp
+    src/utility/color.cpp
+    src/utility/continuouscolorscheme.cpp
+    src/utility/discretecolorscheme.cpp
+    src/utility/lineargradient.cpp
+    src/utility/linearhsvgradient.cpp
+    src/utility/multicolorscheme.cpp
+    src/utility/randomcolorscheme.cpp
+    src/utility/randomgradient.cpp
+    include/utility/color.h
+    include/utility/gradient.h
+    include/utility/scheme.h
     )
 
 set(COLORSELECTOR_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)
 target_include_directories(${PROJECT_NAME} PRIVATE ${COLORSELECTOR_INCLUDE_PATH})
+
+target_link_libraries(${PROJECT_NAME}
+        PRIVATE
+        Qt::Core
+        Qt::Widgets)

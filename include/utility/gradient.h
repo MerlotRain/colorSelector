@@ -87,5 +87,3 @@ public:
     Color color(double value) override;
     void generateColor(int size, double start = 0, double end = 1.0) override;
 };
-
-//TODO CIELAB模型

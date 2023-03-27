@@ -1,52 +1,21 @@
 #include "colorslider.h"
+#include "colorslidergroove.h"
 #include <QColor>
+#include <QLinearGradient>
+#include <QPaintEvent>
 #include <QPainter>
 #include <QRect>
 #include <QStyleOption>
 
-class ColorSliderGroove : public QWidget {
-    Q_OBJECT
-public:
-    explicit ColorSliderGroove(QWidget *parent = nullptr);
-    ~ColorSliderGroove() = default;
-    QColor beginColor;
-    QColor endColor;
-    int value;
-    bool hue;
-    int margin;
-    int sliderWidth;
-    int sliderHeight;
-    int interValue;
-    int maximum;
-    int minimum;
-
-    static std::list<QColor> hsvColorModel;
-
-protected:
-    void paintEvent(QPaintEvent *event) override;
-    void mousePressEvent(QMouseEvent *evnet) override;
-    void mouseMoveEvent(QMouseEvent *evnet) override;
-    void mouseReleaseEvent(QMouseEvent *event) override;
-    QSize sizeHint() const override;
-
-private:
-    void selectedPoint(const QPoint &pos);
-Q_SIGNALS:
-    void valueChange(int value);
-};
-
-std::list<QColor> ColorSliderGroove::hsvColorModel << QColor(255, 0, 0) << QColor(255, 255, 0)
-                                                   << QColor(0, 255, 0) << QColor(0, 255, 255)
-                                                   << QColor(0, 0, 255) << QColor(255, 0, 255);
+std::vector<QColor> ColorSliderGroove::hsvColorModel = {QColor(255, 0, 0), QColor(255, 255, 0),
+                                                        QColor(0, 255, 0), QColor(0, 255, 255),
+                                                        QColor(0, 0, 255), QColor(255, 0, 255)};
 
 ColorSliderGroove::ColorSliderGroove(QWidget *parent)
     : QWidget(parent) {
 }
 
-
-ColorSliderGroove::~ColorSliderGroove() = default;
-
-void ColorSliderGroove::paintEvent(QPaintEvent *event) override {
+void ColorSliderGroove::paintEvent(QPaintEvent *event) {
     QStyleOption opt;
     opt.init(this);
     QPainter *painter = new QPainter(this);
@@ -66,13 +35,13 @@ void ColorSliderGroove::paintEvent(QPaintEvent *event) override {
     rect = rect.adjusted(interValue, interValue, -interValue, -interValue);
     QLinearGradient linerGradient(rect.topLeft(), rect.topRight());
     if (hue) {
-        for (int i = 0; i < m_colorVec.size(); ++i) {
-            qreal part = 1.0 / m_colorVec.size() * i;
-            linerGradient.setColorAt(part, m_colorVec[i]);
+        for (int i = 0; i < hsvColorModel.size(); ++i) {
+            qreal part = 1.0 / hsvColorModel.size() * i;
+            linerGradient.setColorAt(part, hsvColorModel.at(i));
         }
     } else {
-        linerGradient.setColorAt(0, m_cStartColor);
-        linerGradient.setColorAt(1, m_cEndColor);
+        linerGradient.setColorAt(0, beginColor);
+        linerGradient.setColorAt(1, endColor);
     }
 
     painter->setPen(Qt::NoPen);
@@ -92,16 +61,16 @@ void ColorSliderGroove::paintEvent(QPaintEvent *event) override {
     return QWidget::paintEvent(event);
 }
 
-void ColorSliderGroove::mousePressEvent(QMouseEvent *evnet) override {
+void ColorSliderGroove::mousePressEvent(QMouseEvent *evnet) {
 }
 
-void ColorSliderGroove::mouseMoveEvent(QMouseEvent *evnet) override {
+void ColorSliderGroove::mouseMoveEvent(QMouseEvent *evnet) {
 }
 
-void ColorSliderGroove::mouseReleaseEvent(QMouseEvent *event) override {
+void ColorSliderGroove::mouseReleaseEvent(QMouseEvent *event) {
 }
 
-QSize ColorSliderGroove::sizeHint() const override {
+QSize ColorSliderGroove::sizeHint() const {
     return QSize();
 }
 

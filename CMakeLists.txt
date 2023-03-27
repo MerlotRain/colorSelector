@@ -60,6 +60,7 @@ add_executable(${PROJECT_NAME}
         src/UI/coloreditor/coloreditor.cpp
         src/UI/coloreditor/colorslider.h
         src/UI/coloreditor/colorslider.cpp
+        src/UI/coloreditor/colorslidergroove.h
         )
 
 set(COLORSELECTOR_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)

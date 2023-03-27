@@ -48,7 +48,7 @@ void ColorSliderGroove::paintEvent(QPaintEvent *event) {
     painter->setBrush(linerGradient);
     painter->drawRoundedRect(rect, 4, 4);
 
-    // 绘制滑动三角形手柄
+    // draw slider groove
     painter->setBrush(QColor(220, 220, 220));
     qreal xPt = value * 1.0 / (maximum - minimum) * rect.width() + rect.x();
     QPoint currentPos(xPt, rect.bottom() + interValue + 1);

@@ -39,7 +39,8 @@ const color_info colorInfos[10][12] = {
             {"Apatite Blue",        QColor(115, 223, 255)},
             {"Yogo Blue",           QColor(115, 178, 255)},
             {"Heliotrope",          QColor(223, 115, 255)},
-            {"Fushia Pink",         QColor(255, 115, 223)}},
+            {"Fushia Pink",         QColor(255, 115, 223)}
+        },
         {   
             {"Gray 20%",            QColor(204, 204, 204)},
             {"Mars Red",            QColor(255,   0,   0)},

@@ -1,7 +1,7 @@
 /**
  * @file hsvcomboxmodel.h
  * @brief
- * @author MerlotRain ${EMAIL}
+ * @author merlotRain (1198477036@qq.com)
  * @version 1.0
  * @date 2023-03-25
  * 

@@ -166,6 +166,16 @@ ColorSelectComboBox::ColorSelectComboBox(QColor color, QWidget *parent)
 ColorSelectComboBox::~ColorSelectComboBox() {
 }
 
+void ColorSelectComboBox::setColor(QColor color) {
+}
+
+QColor ColorSelectComboBox::color() const {
+    return QColor();
+}
+
+void ColorSelectComboBox::setShowInvalidColor(bool bshow) {
+}
+
 QMenu *ColorSelectComboBox::createColorMenu(const char *slot, const char *slotColorBoard) {
 
     QAction *pActionTransparent = new QAction(this);
@@ -220,4 +230,11 @@ QMenu *ColorSelectComboBox::createColorMenu(const char *slot, const char *slotCo
     colorMenu->setLayout(pVLayout);
     colorMenu->addSeparator();
     return colorMenu;
+}
+
+QIcon ColorSelectComboBox::createColorToolButtonIcon(QColor color) {
+    return QIcon();
+}
+QIcon ColorSelectComboBox::createColorIcon(QColor color) {
+    return QIcon();
 }

@@ -54,6 +54,8 @@ add_executable(${PROJECT_NAME}
         src/UI/model/hsvcomboxdelegate.cpp
         src/UI/model/hsvcomboxmodel.h
         src/UI/model/hsvcomboxmodel.cpp
+        src/UI/colorselectcombobox.h
+        src/UI/colorselectcombobox.cpp
         )
 
 set(COLORSELECTOR_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)

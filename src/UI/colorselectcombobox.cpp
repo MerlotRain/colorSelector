@@ -4,12 +4,13 @@
 #include <QGridLayout>
 #include <QMenu>
 #include <QString>
+#include <QPainter>
 
 struct color_info {
     QColor color;
     QString color_name;
     color_info(QString _name, QColor _color)
-        : color(_color), color_name(_name) {}
+        : color(std::move( _color)), color_name(std::move( _name)) {}
 };
 
 // clang-format off
@@ -162,12 +163,11 @@ ColorSelectComboBox::ColorSelectComboBox(QColor color, QWidget *parent)
     : QToolButton(parent) {
     setPopupMode(QToolButton::MenuButtonPopup);
     setMenu(createColorMenu(SLOT(onColorChanged()), SLOT(onShowColorBoard())));
-    setColor(color);
+    setColor(std::move(color));
     setFixedSize(QSize(50, 25));
 }
 
-ColorSelectComboBox::~ColorSelectComboBox() {
-}
+ColorSelectComboBox::~ColorSelectComboBox() = default;
 
 void ColorSelectComboBox::setColor(QColor color) {
 }
@@ -181,23 +181,23 @@ void ColorSelectComboBox::setShowInvalidColor(bool bshow) {
 
 QMenu *ColorSelectComboBox::createColorMenu(const char *slot, const char *slotColorBoard) {
 
-    QAction *pActionTransparent = new QAction(this);
+    auto *pActionTransparent = new QAction(this);
     pActionTransparent->setData(QColor(0, 0, 0, 0));//透明色
     pActionTransparent->setText(QObject::tr("No Color"));
     connect(pActionTransparent, SIGNAL(triggered()), this, slot);
-    QToolButton *pBtnTransparent = new QToolButton;
+    auto *pBtnTransparent = new QToolButton;
     pBtnTransparent->setFixedSize(QSize(142, 20));
     pBtnTransparent->setText(QObject::tr("No Color"));
     pBtnTransparent->setDefaultAction(pActionTransparent);
 
-    QToolButton *pBtnOtherColor = new QToolButton;
+    auto *pBtnOtherColor = new QToolButton;
     pBtnOtherColor->setText("Color Properties...");
     pBtnOtherColor->setFixedSize(QSize(142, 20));
     pBtnOtherColor->setAutoRaise(true);
     pBtnOtherColor->setToolTip("Color Properties...");
     connect(pBtnOtherColor, SIGNAL(clicked()), this, slotColorBoard);
 
-    QGridLayout *pGridLayout = new QGridLayout;
+    auto *pGridLayout = new QGridLayout;
     pGridLayout->setAlignment(Qt::AlignCenter);
     pGridLayout->setContentsMargins(0, 0, 0, 0);
     pGridLayout->setSpacing(2);
@@ -237,8 +237,43 @@ QMenu *ColorSelectComboBox::createColorMenu(const char *slot, const char *slotCo
 }
 
 QIcon ColorSelectComboBox::createColorToolButtonIcon(QColor color) {
-    return QIcon();
+    int nWidth = this->width();
+    int nHeight = this->height();
+    if (width() > 22 && height() > 8)
+    {
+        nWidth = this->width() - 22;
+        nHeight = this->height() - 8;
+    }
+    QPixmap pixmap(nWidth, nHeight);
+
+    // no color
+    if (color.alpha() == 0)
+    {
+        QPainter painter(&pixmap);
+        // draw mosaic
+
+        QColor lineColor(161, 161, 161);
+        QPen pen(lineColor, 1, Qt::SolidLine);
+        QColor newColor(225, 225, 225);
+        painter.setBrush(newColor);
+        painter.setPen(pen);
+        painter.drawRect(QRect(0, 0, nWidth - 1, nHeight - 1));
+
+        painter.setRenderHint(QPainter::Antialiasing);
+        painter.drawLine(0, nHeight, nWidth, 0);
+    }
+    else
+    {
+        pixmap.fill(color);
+    }
+
+    QIcon icon(pixmap);
+    return icon;
 }
 QIcon ColorSelectComboBox::createColorIcon(QColor color) {
-    return QIcon();
+    QPixmap pixmap(16, 16);
+    QPainter painter(&pixmap);
+    painter.setPen(Qt::NoPen);
+    painter.fillRect(QRect(0, 0, 16, 16), color);
+    return QIcon(pixmap);
 }

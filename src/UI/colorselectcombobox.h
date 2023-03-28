@@ -31,7 +31,7 @@ private:
 
 private:
     QColor _currentColor;
-    bool _showInvalidColor;
+    bool _showInvalidColor{};
 };
 
 

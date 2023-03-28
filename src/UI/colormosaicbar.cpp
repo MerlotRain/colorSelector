@@ -7,8 +7,7 @@ ColorMosaicBar::ColorMosaicBar(QWidget *parent)
     : QWidget(parent), _drawMosaic(true) {
 }
 
-ColorMosaicBar::~ColorMosaicBar() {
-}
+ColorMosaicBar::~ColorMosaicBar() = default;
 
 void ColorMosaicBar::setDrawMosaic(bool val) {
     _drawMosaic = val;
@@ -19,7 +18,7 @@ bool ColorMosaicBar::drawMosaic() const {
 }
 
 void ColorMosaicBar::paintEvent(QPaintEvent *event) {
-    QPainter *painter = new QPainter(this);
+    auto *painter = new QPainter(this);
 
     //draw mosaic background
     if (_drawMosaic) {

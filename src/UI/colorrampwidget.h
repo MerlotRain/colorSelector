@@ -13,5 +13,8 @@ class ColorRampWidget : public ColorMosaicBar {
     Q_OBJECT
 public:
     explicit ColorRampWidget(QWidget *parent = nullptr);
-    ~ColorRampWidget();
+    ~ColorRampWidget() override;
+
+protected:
+    void paint(QPainter &painter) override;
 };

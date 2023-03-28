@@ -12,14 +12,15 @@
 class ColorBlockWidget : public ColorMosaicBar {
     Q_OBJECT
     explicit ColorBlockWidget(QWidget *parent = nullptr);
-    ~ColorBlockWidget();
+    ~ColorBlockWidget() override;
     void setColor(QColor color);
+    QColor color() const;
 
 protected:
     void paint(QPainter &painter) override;
-    void mousePressEvent(QMouseEvent *evnet) override;
-    void mouseMoveEvent(QMouseEvent *evnet) override;
-    void mouseReleaseEvent(QMouseEvent *evnet) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
 
 Q_SIGNALS:
     void clicked(QColor color);
@@ -27,5 +28,4 @@ Q_SIGNALS:
 
 private:
     QColor _color;
-    QString _name;
 };

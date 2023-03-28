@@ -19,21 +19,24 @@ QColor ColorBlockWidget::color() const {
 }
 
 void ColorBlockWidget::paint(QPainter &painter) {
-    painter.restore();
-    int wi = width();
-    int hi = height();
-    QImage img = QImage(this->rect().width(), this->rect().height(), QImage::Format_RGB32);
-    uint *pixel = (uint *) img.scanLine(0);
-    for (int y = 0; y < hi; y++) {
-        uint *end = pixel + wi;
-        std::fill(pixel, end, _color.rgb());
-        pixel = end;
+    if (_color.alpha() != 0) {
+        painter.restore();
+        int wi = width();
+        int hi = height();
+        QImage img = QImage(this->rect().width(), this->rect().height(), QImage::Format_RGB32);
+        uint *pixel = (uint *) img.scanLine(0);
+        for (int y = 0; y < hi; y++) {
+            uint *end = pixel + wi;
+            std::fill(pixel, end, _color.rgb());
+            pixel = end;
+        }
+
+        QRect rect(0, 0, wi, hi);
+        QPixmap pix = QPixmap::fromImage(img);
+        painter.drawPixmap(rect, pix);
+        painter.save();
     }
 
-    QRect rect(0, 0, wi, hi);
-    QPixmap pix = QPixmap::fromImage(img);
-    painter.drawPixmap(rect, pix);
-    painter.save();
 }
 
 void ColorBlockWidget::mousePressEvent(QMouseEvent *event) {
@@ -45,6 +48,6 @@ void ColorBlockWidget::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void ColorBlockWidget::mouseReleaseEvent(QMouseEvent *event) {
-    emit clicked(_color);
+    emit clicked();
     return QWidget::mouseReleaseEvent(event);
 }

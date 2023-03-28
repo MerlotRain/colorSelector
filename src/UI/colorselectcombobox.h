@@ -15,7 +15,7 @@
 class ColorSelectComboBox : public QToolButton {
     Q_OBJECT
 public:
-    explicit ColorSelectComboBox(QColor color = QColor(0, 0, 0), QWidget *parent = nullptr);
+    explicit ColorSelectComboBox(QWidget *parent = nullptr, QColor color = QColor(0, 0, 0));
     ~ColorSelectComboBox() override;
     void setColor(QColor color);
     QColor color() const;
@@ -27,6 +27,9 @@ private:
     QMenu *createColorMenu(const char *slot, const char *slotColrBoard);
     QIcon createColorToolButtonIcon(QColor color);
     QIcon createColorIcon(QColor color);
+    void onColorChanged();
+    void onShowColorBoard();
+    void setButtonColor(QColor color);
 
 private:
     QColor _currentColor;

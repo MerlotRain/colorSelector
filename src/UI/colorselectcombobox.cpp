@@ -162,12 +162,13 @@ const color_info colorInfos[10][12] = {
 
 // clang-format on
 
-ColorSelectComboBox::ColorSelectComboBox(QColor color, QWidget *parent)
+ColorSelectComboBox::ColorSelectComboBox(QWidget *parent, QColor color)
     : QToolButton(parent) {
     setPopupMode(QToolButton::MenuButtonPopup);
     setMenu(createColorMenu(SLOT(onColorChanged()), SLOT(onShowColorBoard())));
     setColor(std::move(color));
     setFixedSize(QSize(50, 25));
+    setButtonColor(color);
 }
 
 ColorSelectComboBox::~ColorSelectComboBox() = default;
@@ -188,6 +189,7 @@ QMenu *ColorSelectComboBox::createColorMenu(const char *slot, const char *slotCo
         // add no color
         QHBoxLayout* horizontalLayout = new QHBoxLayout();
         ColorBlockWidget* blockWidget = new ColorBlockWidget();
+        connect(blockWidget, SIGNAL(clicked()), this, slot);
         blockWidget->setColor(QColor(0,0,0,0));
         blockWidget->setToolTip("No Color");
         blockWidget->setFixedSize(QSize(16, 16));
@@ -220,6 +222,7 @@ QMenu *ColorSelectComboBox::createColorMenu(const char *slot, const char *slotCo
             QHBoxLayout* horizontalLayout = new QHBoxLayout();
             for(int column =0;column<12;++column){
                 ColorBlockWidget* blockWidget = new ColorBlockWidget();
+                connect(blockWidget, SIGNAL(clicked()), this, slot);
                 blockWidget->setFixedSize(QSize(16,16));
                 blockWidget->setColor(colorInfos[row][column].color);
                 blockWidget->setToolTip(colorInfos[row][column].color_name);
@@ -284,4 +287,24 @@ QIcon ColorSelectComboBox::createColorIcon(QColor color) {
     painter.setPen(Qt::NoPen);
     painter.fillRect(QRect(0, 0, 16, 16), color);
     return QIcon(pixmap);
+}
+
+void ColorSelectComboBox::onColorChanged() {
+    ColorBlockWidget* blockWidget = qobject_cast<ColorBlockWidget*>(sender());
+    if (blockWidget) {
+        QColor color = blockWidget->color();
+        setButtonColor(color);
+    }
+}
+
+void ColorSelectComboBox::onShowColorBoard() {
+}
+void ColorSelectComboBox::setButtonColor(QColor color) {
+    setIconSize(size());
+    setIcon(createColorToolButtonIcon(color));
+    if (_currentColor != color)
+    {
+        _currentColor = color;
+        emit selectColorChange(_currentColor);
+    }
 }

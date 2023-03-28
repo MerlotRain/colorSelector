@@ -27,7 +27,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 Q_SIGNALS:
-    void clicked(QColor color);
+    void clicked();
     void colorChange(QColor previous, QColor current);
 
 private:

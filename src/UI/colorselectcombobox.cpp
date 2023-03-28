@@ -1,4 +1,5 @@
 #include "colorselectcombobox.h"
+#include "colorblockwidget.h"
 #include <QAction>
 #include <QGridLayout>
 #include <QMenu>
@@ -162,6 +163,7 @@ ColorSelectComboBox::ColorSelectComboBox(QColor color, QWidget *parent)
     setPopupMode(QToolButton::MenuButtonPopup);
     setMenu(createColorMenu(SLOT(onColorChanged()), SLOT(onShowColorBoard())));
     setColor(color);
+    setFixedSize(QSize(50, 25));
 }
 
 ColorSelectComboBox::~ColorSelectComboBox() {
@@ -205,6 +207,7 @@ QMenu *ColorSelectComboBox::createColorMenu(const char *slot, const char *slotCo
             QAction *action = new QAction(this);
             action->setData(colorInfos[iRow][iCol].color);
             action->setIcon(createColorIcon(colorInfos[iRow][iCol].color));
+            action->setToolTip(colorInfos[iRow][iCol].color_name);
             connect(action, SIGNAL(triggered()), this, slot);
 
             QToolButton *pBtnColor = new QToolButton();

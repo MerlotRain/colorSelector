@@ -10,33 +10,32 @@
  * 
  */
 
-#include "color.h"
 #include "gradient.h"
-#include <string>
+#include <QString>
 #include <vector>
 
-class Scheme {
+class ColorScheme {
 public:
-    Scheme() = default;
-    virtual ~Scheme() = default;
-    std::string name() const;
-    void name(const std::string &name);
-    virtual Color color(double value) = 0;
-    virtual std::vector<Color> interpolate(int size) = 0;
+    ColorScheme() = default;
+    virtual ~ColorScheme() = default;
+    QString name() const;
+    void name(const QString &name);
+    virtual QColor color(double value) = 0;
+    virtual std::vector<QColor> interpolate(int size) = 0;
     virtual void serialize() = 0;
     virtual void deserialize() = 0;
 
 protected:
-    std::string _name;
+    QString _name;
 };
 
 
-class RandomColorScheme : public Scheme {
+class RandomColorScheme : public ColorScheme {
 public:
     RandomColorScheme();
     ~RandomColorScheme();
-    Color color(double value) override;
-    std::vector<Color> interpolate(int size) override;
+    QColor color(double value) override;
+    std::vector<QColor> interpolate(int size) override;
     void serialize() override;
     void deserialize() override;
     void setGradient(RandomGradient *gradient);
@@ -47,17 +46,17 @@ protected:
 };
 
 
-class ContinuousColorScheme : public Scheme {
+class ContinuousColorScheme : public ColorScheme {
 public:
     struct Step {
         double begin;
-        Gradient *gradient;
+        ColorGradient *gradient;
     };
 
     ContinuousColorScheme();
     ~ContinuousColorScheme();
-    Color color(double value) override;
-    std::vector<Color> interpolate(int size) override;
+    QColor color(double value) override;
+    std::vector<QColor> interpolate(int size) override;
     void serialize() override;
     void deserialize() override;
     void addStep(Step step);
@@ -68,33 +67,33 @@ protected:
 };
 
 
-class DiscreteColorScheme : public Scheme {
+class DiscreteColorScheme : public ColorScheme {
 public:
     DiscreteColorScheme();
     ~DiscreteColorScheme();
-    Color color(double value) override;
-    std::vector<Color> interpolate(int size) override;
+    QColor color(double value) override;
+    std::vector<QColor> interpolate(int size) override;
     void serialize() override;
     void deserialize() override;
-    void addColor(const Color &color);
+    void addColor(const QColor &color);
     void removeColor(int index);
 
 protected:
-    std::vector<Color> _colors;
+    std::vector<QColor> _colors;
 };
 
 
-class MultiColorScheme : public Scheme {
+class MultiColorScheme : public ColorScheme {
 public:
     struct Step {
         double begin;
-        Gradient *gradient;
+        ColorGradient *gradient;
     };
 
     MultiColorScheme();
     ~MultiColorScheme();
-    Color color(double value) override;
-    std::vector<Color> interpolate(int size) override;
+    QColor color(double value) override;
+    std::vector<QColor> interpolate(int size) override;
     void serialize() override;
     void deserialize() override;
 

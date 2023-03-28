@@ -11,64 +11,63 @@
  * 
  */
 
-#include "color.h"
-#include <string>
+#include <QColor>
 #include <vector>
 
-class Gradient {
+class ColorGradient {
 public:
-    Gradient() = default;
-    virtual ~Gradient() = default;
-    virtual Color color(double value) = 0;
+    ColorGradient() = default;
+    virtual ~ColorGradient() = default;
+    virtual QColor color(double value) = 0;
     virtual void generateColor(int size, double start = 0, double end = 1) = 0;
 };
 
-class LinearGradient : public Gradient {
+class LinearGradient : public ColorGradient {
 public:
     LinearGradient();
     virtual ~LinearGradient();
-    Color begin();
-    void begin(const Color &color);
-    Color end();
-    void end(const Color &color);
+    QColor begin();
+    void begin(const QColor &color);
+    QColor end();
+    void end(const QColor &color);
 
 protected:
-    Color _begin, _end;
+    QColor _begin, _end;
 };
 
 
-class BlockGradient : public Gradient {
+class BlockGradient : public ColorGradient {
 public:
     BlockGradient();
     ~BlockGradient();
-    Color bolckcolor();
-    void bolckcolor(const Color &col);
-    Color color(double value) override;
+    QColor bolckcolor();
+    void bolckcolor(const QColor &col);
+    QColor color(double value) override;
     void generateColor(int size, double start = 0, double end = 1.0) override;
 
 protected:
-    Color _color;
+    QColor _color;
 };
 
 
-class RandomGradient : public Gradient {
+class RandomGradient : public ColorGradient {
 public:
     RandomGradient();
     ~RandomGradient();
-    void minimumColor(const Color &color);
-    Color minimumColor();
-    void maximumColor(const Color &color);
-    Color maximumColor();
+    void minimumColor(const QColor &color);
+    QColor minimumColor();
+    void maximumColor(const QColor &color);
+    QColor maximumColor();
     void seed(int val);
     int seed() const;
     void update();
-    std::vector<Color> sample();
-    Color color(double value) override;
+    std::vector<QColor> sample();
+    QColor color(double value) override;
     void generateColor(int size, double start = 0, double end = 1.0) override;
 
 protected:
-    Color _minimumColor;
-    Color _maximumColor;
+    QColor _minimumColor;
+    QColor _maximumColor;
     int _seed;
 };
 
@@ -84,6 +83,6 @@ public:
     };
 
     void direction(PolarDirection direct);
-    Color color(double value) override;
+    QColor color(double value) override;
     void generateColor(int size, double start = 0, double end = 1.0) override;
 };

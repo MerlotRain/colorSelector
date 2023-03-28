@@ -38,18 +38,16 @@ find_package(Qt5 COMPONENTS Core Widgets)
 
 add_executable(${PROJECT_NAME}
         src/main.cpp
-        src/utility/blockgradient.cpp
-        src/utility/color.cpp
-        src/utility/continuouscolorscheme.cpp
-        src/utility/discretecolorscheme.cpp
-        src/utility/lineargradient.cpp
-        src/utility/linearhsvgradient.cpp
-        src/utility/multicolorscheme.cpp
-        src/utility/randomcolorscheme.cpp
-        src/utility/randomgradient.cpp
-        include/utility/color.h
-        include/utility/gradient.h
-        include/utility/scheme.h
+        src/core/gradient.h
+        src/core/scheme.h
+        src/core/gradient/blockgradient.cpp
+        src/core/gradient/lineargradient.cpp
+        src/core/gradient/linearhsvgradient.cpp
+        src/core/gradient/randomgradient.cpp
+        src/core/scheme/continuouscolorscheme.cpp
+        src/core/scheme/discretecolorscheme.cpp
+        src/core/scheme/multicolorscheme.cpp
+        src/core/scheme/randomcolorscheme.cpp
         src/UI/model/hsvcomboxdelegate.h
         src/UI/model/hsvcomboxdelegate.cpp
         src/UI/model/hsvcomboxmodel.h
@@ -61,6 +59,14 @@ add_executable(${PROJECT_NAME}
         src/UI/coloreditor/colorslider.h
         src/UI/coloreditor/colorslider.cpp
         src/UI/coloreditor/colorslidergroove.h
+        src/UI/colormosaicbar.h
+        src/UI/colormosaicbar.cpp
+        src/UI/colorblockwidget.h
+        src/UI/colorblockwidget.cpp
+        src/UI/colorrampwidget.h
+        src/UI/colorrampwidget.cpp
+        src/UI/colorschemebar.h
+        src/UI/colorschemebar.cpp
         )
 
 set(COLORSELECTOR_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/include)

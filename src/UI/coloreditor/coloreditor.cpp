@@ -11,6 +11,7 @@ ColorEditor::ColorEditor(QWidget *parent)
 }
 
 ColorEditor::~ColorEditor() {
+    delete ui;
 }
 
 QColor ColorEditor::color() const {

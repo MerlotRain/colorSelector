@@ -7,6 +7,9 @@
  *  
  */
 
+#ifndef COLOREDITOR_H
+#define COLOREDITOR_H
+
 #include <QColor>
 #include <QDialog>
 
@@ -20,7 +23,7 @@ class ColorEditor : public QDialog {
     Q_OBJECT
 public:
     explicit ColorEditor(QWidget *parent = nullptr);
-    ~ColorEditor();
+    ~ColorEditor() override;
     QColor color() const;
 
 private slots:
@@ -31,3 +34,5 @@ private slots:
 private:
     Ui::ColorEditor *ui;
 };
+
+#endif //COLOREDITOR_H

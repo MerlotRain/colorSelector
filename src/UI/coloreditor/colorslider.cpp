@@ -76,3 +76,10 @@ QSize ColorSliderGroove::sizeHint() const {
 
 void ColorSliderGroove::selectedPoint(const QPoint &pos) {
 }
+
+
+
+
+ColorSlider::ColorSlider(QWidget *parent) {}
+
+ColorSlider::~ColorSlider() noexcept {}

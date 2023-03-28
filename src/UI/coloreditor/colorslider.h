@@ -14,7 +14,7 @@ class ColorSlider : public QWidget {
     Q_OBJECT
 public:
     explicit ColorSlider(QWidget *parent = nullptr);
-    ~ColorSlider();
+    ~ColorSlider() noexcept override;
 
 private:
     ColorSliderGroove *_groove;

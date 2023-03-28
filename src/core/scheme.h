@@ -1,14 +1,13 @@
-#pragma once
 /**
  * @file scheme.h
  * @brief 
  * @author merlotRain (1198477036@qq.com)
  * @version 1.0
  * @date 2023-03-24
- * 
- * @copyright Copyright (c) 2023 By MerlotRain
- * 
+ *
  */
+
+#pragma once
 
 #include "gradient.h"
 #include <QString>

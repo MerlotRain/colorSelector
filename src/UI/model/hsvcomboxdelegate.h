@@ -1,5 +1,3 @@
-#pragma once
-
 /**
  * @file hsvcomboxdelegate.h
  * @brief
@@ -8,6 +6,9 @@
  * @date 2023-03-24
  *
  */
+
+#ifndef HSVCOMBOXDELEGATE_H
+#define HSVCOMBOXDELEGATE_H
 
 #include <QStyledItemDelegate>
 
@@ -23,3 +24,5 @@ protected:
     bool editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option,
                      const QModelIndex &index) override;
 };
+
+#endif //HSVCOMBOXDELEGATE_H

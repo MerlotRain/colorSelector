@@ -7,8 +7,6 @@ ColorMosaicBar::ColorMosaicBar(QWidget *parent)
     : QWidget(parent), _drawMosaic(true) {
 }
 
-ColorMosaicBar::~ColorMosaicBar() = default;
-
 void ColorMosaicBar::setDrawMosaic(bool val) {
     _drawMosaic = val;
 }

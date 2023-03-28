@@ -7,10 +7,14 @@
  * 
  */
 
+#ifndef COLORBLOCKWIDGT_H
+#define COLORBLOCKWIDGT_H
+
 #include "colormosaicbar.h"
 
 class ColorBlockWidget : public ColorMosaicBar {
     Q_OBJECT
+public:
     explicit ColorBlockWidget(QWidget *parent = nullptr);
     ~ColorBlockWidget() override;
     void setColor(QColor color);
@@ -29,3 +33,5 @@ Q_SIGNALS:
 private:
     QColor _color;
 };
+
+#endif //COLORBLOCKWIDGT_H

@@ -19,7 +19,6 @@ public:
     ~ColorSelectComboBox() override;
     void setColor(QColor color);
     QColor color() const;
-    void setShowInvalidColor(bool bshow);
 
 Q_SIGNALS:
     void selectColorChange(QColor color);
@@ -31,7 +30,6 @@ private:
 
 private:
     QColor _currentColor;
-    bool _showInvalidColor{};
 };
 
 

@@ -8,13 +8,16 @@
  *  
  */
 
+#ifndef COLORMOSAICBAE_H
+#define COLORMOSAICBAE_H
+
 #include <QWidget>
 
 class ColorMosaicBar : public QWidget {
     Q_OBJECT
 public:
     explicit ColorMosaicBar(QWidget *parent = nullptr);
-    ~ColorMosaicBar();
+    virtual ~ColorMosaicBar() override = default;
     void setDrawMosaic(bool);
     bool drawMosaic() const;
 
@@ -25,3 +28,5 @@ protected:
 private:
     bool _drawMosaic;
 };
+
+#endif //COLORMOSAICBAE_H

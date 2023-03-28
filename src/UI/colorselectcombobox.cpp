@@ -5,6 +5,9 @@
 #include <QMenu>
 #include <QString>
 #include <QPainter>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QLabel>
 
 struct color_info {
     QColor color;
@@ -170,68 +173,73 @@ ColorSelectComboBox::ColorSelectComboBox(QColor color, QWidget *parent)
 ColorSelectComboBox::~ColorSelectComboBox() = default;
 
 void ColorSelectComboBox::setColor(QColor color) {
+    _currentColor = std::move(color);
 }
 
 QColor ColorSelectComboBox::color() const {
-    return QColor();
-}
-
-void ColorSelectComboBox::setShowInvalidColor(bool bshow) {
+    return _currentColor;
 }
 
 QMenu *ColorSelectComboBox::createColorMenu(const char *slot, const char *slotColorBoard) {
+    // add no color
 
-    auto *pActionTransparent = new QAction(this);
-    pActionTransparent->setData(QColor(0, 0, 0, 0));//透明色
-    pActionTransparent->setText(QObject::tr("No Color"));
-    connect(pActionTransparent, SIGNAL(triggered()), this, slot);
-    auto *pBtnTransparent = new QToolButton;
-    pBtnTransparent->setFixedSize(QSize(142, 20));
-    pBtnTransparent->setText(QObject::tr("No Color"));
-    pBtnTransparent->setDefaultAction(pActionTransparent);
+    QVBoxLayout* verticalLayout = new QVBoxLayout();
+    {
+        // add no color
+        QHBoxLayout* horizontalLayout = new QHBoxLayout();
+        ColorBlockWidget* blockWidget = new ColorBlockWidget();
+        blockWidget->setColor(QColor(0,0,0,0));
+        blockWidget->setToolTip("No Color");
+        blockWidget->setFixedSize(QSize(16, 16));
+        horizontalLayout->addWidget(blockWidget);
 
-    auto *pBtnOtherColor = new QToolButton;
-    pBtnOtherColor->setText("Color Properties...");
-    pBtnOtherColor->setFixedSize(QSize(142, 20));
-    pBtnOtherColor->setAutoRaise(true);
-    pBtnOtherColor->setToolTip("Color Properties...");
-    connect(pBtnOtherColor, SIGNAL(clicked()), this, slotColorBoard);
+        QLabel* label = new QLabel("No Color");
+        horizontalLayout->addWidget(label);
 
-    auto *pGridLayout = new QGridLayout;
-    pGridLayout->setAlignment(Qt::AlignCenter);
-    pGridLayout->setContentsMargins(0, 0, 0, 0);
-    pGridLayout->setSpacing(2);
-
-    for (int iRow = 0; iRow < 10; iRow++) {
-        for (int iCol = 0; iCol < 12; iCol++) {
-            QAction *action = new QAction(this);
-            action->setData(colorInfos[iRow][iCol].color);
-            action->setIcon(createColorIcon(colorInfos[iRow][iCol].color));
-            action->setToolTip(colorInfos[iRow][iCol].color_name);
-            connect(action, SIGNAL(triggered()), this, slot);
-
-            QToolButton *pBtnColor = new QToolButton();
-            pBtnColor->setFixedSize(QSize(16, 16));
-            pBtnColor->setAutoRaise(true);
-            pBtnColor->setDefaultAction(action);
-            pBtnColor->setToolTip(colorInfos[iRow][iCol].color_name);
-
-            pGridLayout->addWidget(pBtnColor, iRow, iCol);
+        QSpacerItem* horizontalSpacer = new QSpacerItem(40, 20, QSizePolicy::Expanding, QSizePolicy::Minimum);
+        horizontalLayout->addItem(horizontalSpacer);
+        verticalLayout->addLayout(horizontalLayout);
+    }
+    {
+        // add line
+        QFrame* line = new QFrame;
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        verticalLayout->addWidget(line);
+    }
+    {
+        // add default color label
+        QLabel* label = new QLabel("Default Color");
+        verticalLayout->addWidget(label);
+    }
+    {
+        // add default color widget
+        QWidget* widget = new QWidget();
+        QVBoxLayout* subVerticalLayout = new QVBoxLayout(widget);
+        for(int row = 0; row < 10;++row) {
+            QHBoxLayout* horizontalLayout = new QHBoxLayout();
+            for(int column =0;column<12;++column){
+                ColorBlockWidget* blockWidget = new ColorBlockWidget();
+                blockWidget->setFixedSize(QSize(16,16));
+                blockWidget->setColor(colorInfos[row][column].color);
+                blockWidget->setToolTip(colorInfos[row][column].color_name);
+                horizontalLayout->addWidget(blockWidget);
+            }
+            subVerticalLayout->addLayout(horizontalLayout);
         }
+        verticalLayout->addWidget(widget);
+    }
+    {
+        // add line
+        QFrame* line = new QFrame;
+        line->setFrameShape(QFrame::HLine);
+        line->setFrameShadow(QFrame::Sunken);
+        verticalLayout->addWidget(line);
     }
 
-    QWidget *pWidget = new QWidget;
-    pWidget->setLayout(pGridLayout);
-
-    QVBoxLayout *pVLayout = new QVBoxLayout;
-    pVLayout->addWidget(pBtnTransparent);
-    pVLayout->addStretch();
-    pVLayout->addWidget(pWidget);
-    pVLayout->addStretch();
-    pVLayout->addWidget(pBtnOtherColor);
 
     QMenu *colorMenu = new QMenu(this);
-    colorMenu->setLayout(pVLayout);
+    colorMenu->setLayout(verticalLayout);
     colorMenu->addSeparator();
     return colorMenu;
 }

@@ -7,6 +7,9 @@
  * 
  */
 
+#ifndef COLORSCHEMEBAR_H
+#define COLORSCHEMEBAR_H
+
 #include "../core/gradient.h"
 #include "../core/scheme.h"
 #include <QWidget>
@@ -19,7 +22,8 @@ public:
 
     void setColorScheme(ColorScheme *scheme);
 
-
 protected:
     void paintEvent(QPaintEvent *event) override;
 };
+
+#endif //COLORSCHEMEBAR_H

@@ -7,6 +7,9 @@
  * 
  */
 
+#ifndef COLORRAMPWIDGET_H
+#define COLORRAMPWIDGET_H
+
 #include "colormosaicbar.h"
 
 class ColorRampWidget : public ColorMosaicBar {
@@ -18,3 +21,5 @@ public:
 protected:
     void paint(QPainter &painter) override;
 };
+
+#endif //COLORRAMPWIDGET_H
